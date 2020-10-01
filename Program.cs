@@ -73,12 +73,25 @@ namespace Lab3
             PrintTableRow("X", "Y", max_length_x, max_length_y);
             Console.WriteLine($"{new string('_', max_length_x + max_length_y + 3)}");
 
-            for (; min < max; min += step)
+            if (step > 0)
             {
-                double x = Math.Round(min, 10, MidpointRounding.AwayFromZero);
-                string y = Convert.ToString(F(min));
-                PrintTableRow(Convert.ToString(x), y, max_length_x, max_length_y);
+                for (; min <= max; min += step)
+                {
+                    double x = Math.Round(min, 10, MidpointRounding.AwayFromZero);
+                    string y = Convert.ToString(F(min));
+                    PrintTableRow(Convert.ToString(x), y, max_length_x, max_length_y);
+                }
             }
+            else
+            {
+                for (; min >= max; min += step)
+                {
+                    double x = Math.Round(min, 10, MidpointRounding.AwayFromZero);
+                    string y = Convert.ToString(F(min));
+                    PrintTableRow(Convert.ToString(x), y, max_length_x, max_length_y);
+                }
+            }
+            
         }
     }
 }
