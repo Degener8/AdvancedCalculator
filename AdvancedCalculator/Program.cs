@@ -10,7 +10,7 @@ namespace AdvancedCalculator
             return Math.Round(x, 10, mode: MidpointRounding.AwayFromZero);
         }
 
-        static double Function(double x)
+        static double GetFunctionValue(double x)
         {
             return Round(Math.Pow(x, 2));
         }
@@ -28,7 +28,6 @@ namespace AdvancedCalculator
             || Double.TryParse(parametres[1].Replace('.', ','), out min) == false
             || Double.TryParse(parametres[2].Replace('.', ','), out max) == false
             || step == 0
-            || step == 1
             || min == max);
 
             if ((min > max && step > 0) || (min < max && step < 0))
@@ -38,6 +37,32 @@ namespace AdvancedCalculator
                 min = a;
             }
 
+        }
+
+        static void PrintTable(int max_length_x, int max_length_y, double min, double step, double max)
+        {
+            Console.WriteLine($"|{new string('_', max_length_x)}|{new string('_', max_length_y)}|");
+            PrintTableRow("X", "Y", max_length_x, max_length_y);
+            Console.WriteLine($"{new string('_', max_length_x + max_length_y + 3)}");
+
+            if (step > 0)
+            {
+                for (; min <= max; min += step)
+                {
+                    double x = Round(min);
+                    string y = Convert.ToString(GetFunctionValue(min));
+                    PrintTableRow(Convert.ToString(x), y, max_length_x, max_length_y);
+                }
+            }
+            else
+            {
+                for (; min >= max; min += step)
+                {
+                    double x = Round(min);
+                    string y = Convert.ToString(GetFunctionValue(min));
+                    PrintTableRow(Convert.ToString(x), y, max_length_x, max_length_y);
+                }
+            }
         }
 
         static void PrintTableRow(string x, string y, int max_length_x, int max_length_y)
@@ -67,35 +92,14 @@ namespace AdvancedCalculator
             {
                 double x = min + step * num;
 
-                if (Convert.ToString(Function(x)).Length > max_length_y)
-                    max_length_y = Convert.ToString(Function(x)).Length;
+                if (Convert.ToString(GetFunctionValue(x)).Length > max_length_y)
+                    max_length_y = Convert.ToString(GetFunctionValue(x)).Length;
 
                 if (Convert.ToString(Round(x)).Length > max_length_x)
                     max_length_x = Convert.ToString(Round(x)).Length;
             }
 
-            Console.WriteLine($"|{new string('_', max_length_x)}|{new string('_', max_length_y)}|");
-            PrintTableRow("X", "Y", max_length_x, max_length_y);
-            Console.WriteLine($"{new string('_', max_length_x + max_length_y + 3)}");
-
-            if (step > 0)
-            {
-                for (; min <= max; min += step)
-                {
-                    double x = Round(min);
-                    string y = Convert.ToString(Function(min));
-                    PrintTableRow(Convert.ToString(x), y, max_length_x, max_length_y);
-                }
-            }
-            else
-            {
-                for (; min >= max; min += step)
-                {
-                    double x = Round(min);
-                    string y = Convert.ToString(Function(min));
-                    PrintTableRow(Convert.ToString(x), y, max_length_x, max_length_y);
-                }
-            }
+            PrintTable(max_length_x, max_length_y, min, step, max);
 
         }
     }
