@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 
-namespace Lab3
+namespace AdvancedCalculator
 {
     class Program
     {
